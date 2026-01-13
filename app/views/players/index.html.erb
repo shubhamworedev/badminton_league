@@ -1,0 +1,39 @@
+<div class="container">
+  <h1>League Standings</h1>
+
+  <p class="subtitle">
+    League standings based on total wins
+  </p>
+
+  <div class="nav-links">
+    <%= link_to "Add Player", new_player_path %>
+    <%= link_to "View Matches", matches_path %>
+    <%= link_to "Record Match", new_match_path %>
+  </div>
+
+  <table>
+    <tr>
+      <th>Rank</th>
+      <th>Player</th>
+      <th>Wins</th>
+      <th>Losses</th>
+      <th>Actions</th>
+    </tr>
+
+    <% @players.each_with_index do |player, index| %>
+      <tr class="<%= 'top-player' if index == 0 %>">
+        <td><strong><%= index + 1 %></strong></td>
+        <td><%= player.name %></td>
+        <td><%= player.wins_count %></td>
+        <td><%= player.losses_count %></td>
+        <td class="actions">
+          <%= button_to "Edit", edit_player_path(player), method: :get %>
+          <%= button_to "Remove", player_path(player), method: :delete, data: { confirm: "Are you sure?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+  <div class="pagination">
+    <%= paginate @players %>
+  </div>
+</div>

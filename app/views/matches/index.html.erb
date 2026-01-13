@@ -1,0 +1,34 @@
+<div class="container">
+  <h1>Match History</h1>
+
+  <p>
+    <%= link_to "Record New Match", new_match_path %> |
+    <%= link_to "Players", players_path %>
+  </p>
+
+  <table>
+    <tr>
+      <th>Winner</th>
+      <th>Loser</th>
+      <th>Date & Time</th>
+      <th>Action</th>
+    </tr>
+
+    <% @matches.each do |match| %>
+      <tr>
+        <td><strong><%= match.winner.name %></strong></td>
+        <td><%= match.loser.name %></td>
+        <td class="match-date">
+          <%= match.created_at.strftime("%d %b %Y, %I:%M %p") %>
+        </td>
+        <td class="actions">
+          <%= button_to "Edit", edit_match_path(match), method: :get %>
+          <%= button_to "Remove", match_path(match), method: :delete, data: { confirm: "Are you sure?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+  <div class="pagination">
+    <%= paginate @matches %>
+  </div>
+</div>

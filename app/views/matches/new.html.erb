@@ -1,0 +1,27 @@
+<div class="container">
+  <h1>Record Match</h1>
+
+  <%= form_with model: @match do |f| %>
+    <p>
+      <%= f.label :winner_id, "Winner" %><br>
+      <%= f.collection_select :winner_id, @players, :id, :name %>
+    </p>
+
+    <p>
+      <%= f.label :loser_id, "Loser" %><br>
+      <%= f.collection_select :loser_id, @players, :id, :name %>
+    </p>
+
+    <% if @match.errors.any? %>
+      <ul>
+        <% @match.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <%= f.submit "Save Match" %>
+  <% end %>
+
+  <p><%= link_to "Back", matches_path %></p>
+</div>
