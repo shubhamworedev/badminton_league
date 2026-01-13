@@ -1,4 +1,7 @@
 class MatchesController < ApplicationController
+  before_action :set_match, only: [:edit, :update, :destroy]
+  before_action :set_players, only: [:new, :create, :edit, :update]
+
   def index
     @matches = Match
       .includes(:winner, :loser)
@@ -9,7 +12,6 @@ class MatchesController < ApplicationController
 
   def new
     @match = Match.new
-    @players = Player.all
   end
 
   def create
@@ -17,28 +19,22 @@ class MatchesController < ApplicationController
     if @match.save
       redirect_to matches_path, notice: "Match recorded successfully"
     else
-      @players = Player.all
       render :new
     end
   end
 
   def edit
-    @match = Match.find(params[:id])
-    @players = Player.all
   end
 
   def update
-    @match = Match.find(params[:id])
     if @match.update(match_params)
       redirect_to matches_path, notice: "Match updated successfully"
     else
-      @players = Player.all
       render :edit
     end
   end
 
   def destroy
-    @match = Match.find(params[:id])
     if @match.destroy
       flash[:success] = 'Match was successfully deleted.'
       redirect_to matches_url
@@ -47,9 +43,16 @@ class MatchesController < ApplicationController
       redirect_to matches_url
     end
   end
-  
 
   private
+
+  def set_match
+    @match = Match.find(params[:id])
+  end
+
+  def set_players
+    @players = Player.all
+  end
 
   def match_params
     params.require(:match).permit(:winner_id, :loser_id)

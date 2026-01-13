@@ -1,4 +1,6 @@
 class PlayersController < ApplicationController
+  before_action :set_player, only: [:edit, :update, :destroy]
+
   def index
     @players = Player
       .left_joins(:wins)
@@ -22,11 +24,9 @@ class PlayersController < ApplicationController
   end
 
   def edit
-    @player = Player.find(params[:id])
   end
 
   def update
-    @player = Player.find(params[:id])
     if @player.update(player_params)
       redirect_to players_path, notice: "Player updated successfully"
     else
@@ -35,11 +35,15 @@ class PlayersController < ApplicationController
   end
 
   def destroy
-    Player.find(params[:id]).destroy
+    @player.destroy
     redirect_to players_path, notice: "Player removed"
   end
 
   private
+
+  def set_player
+    @player = Player.find(params[:id])
+  end
 
   def player_params
     params.require(:player).permit(:name)
