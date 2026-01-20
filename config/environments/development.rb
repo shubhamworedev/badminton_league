@@ -62,6 +62,16 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.alert = true              # JavaScript alerts in browser
+    Bullet.bullet_logger = true      # Log to log/bullet.log
+    Bullet.console = true            # Log to browser console
+    Bullet.rails_logger = true       # Add warnings to Rails logs
+    Bullet.add_footer = true         # Adds warning footer in HTML pages
+  end
+
+
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 

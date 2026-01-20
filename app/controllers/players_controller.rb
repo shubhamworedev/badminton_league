@@ -3,9 +3,14 @@ class PlayersController < ApplicationController
 
   def index
     @players = Player
-      .left_joins(:wins)
+      .left_joins(:wins, :losses)
+      .select(
+        "players.*,
+        COUNT(DISTINCT matches.id) FILTER (WHERE matches.winner_id = players.id) AS wins_count,
+        COUNT(DISTINCT matches.id) FILTER (WHERE matches.loser_id = players.id) AS losses_count"
+      )
       .group("players.id")
-      .order("COUNT(matches.id) DESC")
+      .order("wins_count DESC")
       .page(params[:page])
       .per(10)
   end

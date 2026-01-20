@@ -24,8 +24,8 @@
       <tr class="<%= 'top-player' if index == 0 %>">
         <td><strong><%= index + 1 %></strong></td>
         <td><%= player.name %></td>
-        <td><%= player.wins_count %></td>
-        <td><%= player.losses_count %></td>
+        <td><%= player.wins_count.to_i %></td>
+        <td><%= player.losses_count.to_i %></td>
         <td class="actions">
           <%= button_to "Edit", edit_player_path(player), method: :get %>
           <%= button_to "Remove", player_path(player), method: :delete, data: { confirm: "Are you sure?" } %>
